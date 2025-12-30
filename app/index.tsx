@@ -1,17 +1,31 @@
-import { useAssets } from 'expo-asset'
+import { useEvent } from 'expo'
+import { useVideoPlayer, VideoView } from 'expo-video'
 import { View, Text, StyleSheet } from 'react-native'
-import { Video } from 'expo-av'
 
-const index = () => {
-    const [assets] = useAssets([require('@/assets/videos/intro.mp4')])
+const Page = () => {
+    const videoSource = require('../assets/videos/intro2.mp4')
+
+    const player = useVideoPlayer(videoSource, (player) => {
+        player.loop = true
+        player.muted = true
+        player.play()
+    })
+
     return (
         <View style={styles.container}>
-            {assets && (
-                <Video
-                    source={{ uri: assets[0].uri }}
-                    style={{ width: 300, height: 300 }}
-                />
-            )}
+            <VideoView
+                player={player}
+                style={styles.video}
+                contentFit="cover"
+                nativeControls={false}
+                allowsFullscreen={false}
+                allowsPictureInPicture={false}
+            />
+            <View style={{ marginTop: 80, padding: 20, zIndex: 1 }}>
+                <Text style={styles.header}>
+                    Ready to change the way you money?
+                </Text>
+            </View>
         </View>
     )
 }
@@ -19,8 +33,21 @@ const index = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'space-between',
+    },
+    video: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+    },
+    header: {
+        fontSize: 36,
+        fontWeight: '900',
+        textTransform: 'uppercase',
+        color: 'white',
     },
 })
 
-export default index
+export default Page
