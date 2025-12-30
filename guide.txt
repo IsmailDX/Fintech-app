@@ -1,0 +1,14 @@
+- first step we write this command to create the app:
+    npx create-expo-app fintech -t tabs
+
+- we install libraries:
+    npx expo install expo-dev-client react-native-reanimated react-native-gesture-handler
+
+- create a babel.config file, and add the plugins
+    plugins: ['react-native-reanimated/plugin'],
+
+- run the command (this will create an android and ios folder in your project):
+    npx expo prebuild
+
+- run the command (to run app, Might take time only the first time):
+    npx expo run:android --device
