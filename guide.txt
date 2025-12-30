@@ -12,3 +12,7 @@
 
 - run the command (to run app, Might take time only the first time):
     npx expo run:android --device
+
+- if everything is working, close the server and run (asset used to load the video files, and asset is for playing the video):
+    npx expo install expo-asset
+    npx expo install expo-av
