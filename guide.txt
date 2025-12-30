@@ -1,22 +1,95 @@
-- first step we write this command to create the app:
-    npx create-expo-app fintech -t tabs
+==================================================
+               EXPO APP SETUP GUIDE
+==================================================
 
-- we install libraries:
-    npx expo install expo-dev-client react-native-reanimated react-native-gesture-handler
+1️⃣ CREATE A NEW EXPO APP
+--------------------------------------
+Command:
+npx create-expo-app fintech -t tabs
 
-- create a babel.config file, and add the plugins
-    plugins: ['react-native-reanimated/plugin'],
+Notes:
+- "fintech" → your app name
+- "-t tabs" → template with tab navigation
 
-- run the command (this will create an android and ios folder in your project):
-    npx expo prebuild
+--------------------------------------------------
 
-- run the command (to run app, Might take time only the first time):
-    npm run android or npx expo run:android --device
+2️⃣ INSTALL ESSENTIAL LIBRARIES
+--------------------------------------
+Command:
+npx expo install expo-dev-client react-native-reanimated react-native-gesture-handler
 
-- if everything is working, close the server and run (asset used to load the video files, and asset is for playing the video):
-    npx expo install expo-asset
-    npx expo install expo-video
-    (different library for a video if the expo-video aint working) npx expo install react-native-video
+Notes:
+- expo-dev-client → allows custom dev client
+- react-native-reanimated → animations
+- react-native-gesture-handler → gesture handling
 
-- run the following when changing any plugins in the config files such as app.json
-    npx expo prebuild --clean
+--------------------------------------------------
+
+3️⃣ CONFIGURE BABEL
+--------------------------------------
+Steps:
+1. Create a file named babel.config.js (if not already present)
+2. Add the Reanimated plugin:
+
+module.exports = {
+  presets: ['babel-preset-expo'],
+  plugins: ['react-native-reanimated/plugin'],
+};
+
+--------------------------------------------------
+
+4️⃣ PREBUILD NATIVE PROJECTS
+--------------------------------------
+Command:
+npx expo prebuild
+
+Notes:
+- Creates "android" and "ios" folders
+- Required for native modules
+
+--------------------------------------------------
+
+5️⃣ RUN THE APP ON ANDROID
+--------------------------------------
+Commands:
+npm run android
+# or
+npx expo run:android --device
+
+Notes:
+- May take time
+- Ensure device or emulator is connected
+
+--------------------------------------------------
+
+6️⃣ INSTALL VIDEO & ASSET LIBRARIES
+--------------------------------------
+Commands:
+npx expo install expo-video
+
+Alternative (if expo-video doesn’t work):
+npx expo install react-native-video
+
+Notes:
+- expo-video / react-native-video → video playback
+
+--------------------------------------------------
+
+7️⃣ APPLY PLUGIN/CONFIG CHANGES
+--------------------------------------
+Command:
+npx expo prebuild --clean
+
+Notes:
+- Run after modifying plugins in babel.config.js or app.json
+- Ensures all native changes are applied
+- Clears old builds
+
+--------------------------------------------------
+
+✅ TIPS & BEST PRACTICES
+--------------------------------------
+- Use "npx expo install" for Expo-compatible native libraries
+- Use "npm i" only for pure JS libraries
+
+==================================================
