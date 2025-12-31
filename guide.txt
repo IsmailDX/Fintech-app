@@ -125,6 +125,8 @@ Notes:
 4️⃣ RUN THE APP
 --------------------------------------
 Command:
+npx expo start
+# OR
 npm run android
 # OR
 npx expo run:android --device
