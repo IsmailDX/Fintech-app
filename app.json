@@ -32,15 +32,14 @@
         },
         "plugins": [
             "expo-router",
-            "expo-asset",
-            "react-native-video",
             [
                 "expo-video",
                 {
                     "supportsBackgroundPlayback": true,
                     "supportsPictureInPicture": true
                 }
-            ]
+            ],
+            "expo-secure-store"
         ],
         "experiments": {
             "typedRoutes": true

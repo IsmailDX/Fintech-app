@@ -8,6 +8,9 @@ import { useEffect } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import 'react-native-reanimated'
+import { ClerkProvider } from '@clerk/clerk-expo'
+import { tokenCache } from '@clerk/clerk-expo/token-cache'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 export {
     // Catch any errors thrown by the Layout component.
@@ -17,7 +20,7 @@ export {
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
 
-const RootLayout = () => {
+const AppLayout = () => {
     const [loaded, error] = useFonts({
         SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
         ...FontAwesome.font,
@@ -61,7 +64,6 @@ const RootLayout = () => {
                     ),
                 }}
             />
-
             <Stack.Screen
                 name="(auth)/sign-in"
                 options={{
@@ -92,7 +94,6 @@ const RootLayout = () => {
                     ),
                 }}
             />
-
             <Stack.Screen
                 name="help"
                 options={{ title: 'Help', presentation: 'modal' }}
@@ -102,11 +103,14 @@ const RootLayout = () => {
 }
 
 const RootLayoutNav = () => {
+    const CLERK_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY as string
     return (
-        <>
-            <StatusBar style="light" />
-            <RootLayout />
-        </>
+        <ClerkProvider publishableKey={CLERK_KEY!} tokenCache={tokenCache}>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+                <StatusBar style="light" />
+                <AppLayout />
+            </GestureHandlerRootView>
+        </ClerkProvider>
     )
 }
 

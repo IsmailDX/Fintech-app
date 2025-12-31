@@ -12,6 +12,7 @@
         "format:check": "prettier --check ."
     },
     "dependencies": {
+        "@clerk/clerk-expo": "^2.18.0",
         "@expo/vector-icons": "^15.0.3",
         "@react-navigation/native": "^7.1.8",
         "expo": "~54.0.30",
@@ -21,6 +22,7 @@
         "expo-font": "~14.0.10",
         "expo-linking": "~8.0.11",
         "expo-router": "~6.0.21",
+        "expo-secure-store": "^15.0.8",
         "expo-splash-screen": "~31.0.13",
         "expo-status-bar": "~3.0.9",
         "expo-video": "~3.0.15",

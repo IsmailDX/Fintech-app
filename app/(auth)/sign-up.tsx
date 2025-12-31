@@ -1,4 +1,4 @@
-import { Link } from 'expo-router'
+import { Link, useRouter } from 'expo-router'
 import { useState } from 'react'
 import {
     View,
@@ -13,6 +13,7 @@ const SignUp = () => {
     const [countryCode, setCountryCode] = useState('+971')
     const [mobile, setMobile] = useState('')
     const keyboardVerticalOffset = Platform.OS === 'ios' ? 80 : 90
+    const router = useRouter()
 
     const onSignUp = async () => {}
 
