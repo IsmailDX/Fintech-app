@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    /* container */
+    .container {
+        @apply flex-1 bg-background p-4;
+    }
+
+    /* header */
+    .header {
+        @apply text-[40px] font-bold;
+    }
+
+    /* pillButton */
+    .pillButton {
+        @apply h-[60px] items-center justify-center rounded-full px-2.5;
+    }
+
+    /* textLink */
+    .textLink {
+        @apply text-lg font-medium text-primary;
+    }
+
+    /* descriptionText */
+    .descriptionText {
+        @apply mt-5 text-lg text-gray;
+    }
+
+    /* buttonText */
+    .buttonText {
+        @apply text-lg font-medium text-white;
+    }
+
+    /* pillButtonSmall */
+    .pillButtonSmall {
+        @apply h-10 items-center justify-center rounded-full px-5;
+    }
+
+    /* buttonTextSmall */
+    .buttonTextSmall {
+        @apply text-base font-medium text-white;
+    }
+
+    /* sectionHeader */
+    .sectionHeader {
+        @apply mx-5 mb-2.5 mt-5 text-xl font-bold;
+    }
+
+    /* block */
+    .block {
+        @apply mx-5 gap-5 rounded-2xl bg-white p-3.5;
+    }
+}

@@ -1,6 +1,14 @@
 ==================================================
-               EXPO APP SETUP GUIDE
+              EXPO APP WORKFLOW GUIDE
 ==================================================
+
+This guide is used for:
+1) Starting a NEW Expo app
+2) Continuing work on an EXISTING app (after git pull)
+
+--------------------------------------------------
+🆕 PART A — STARTING A NEW APP (FIRST TIME ONLY)
+--------------------------------------------------
 
 1️⃣ CREATE A NEW EXPO APP
 --------------------------------------
@@ -8,8 +16,9 @@ Command:
 npx create-expo-app fintech -t tabs
 
 Notes:
-- "fintech" → your app name
-- "-t tabs" → template with tab navigation
+- "fintech" → app name
+- "-t tabs" → tabs navigation template
+- Run this ONLY when creating a new project
 
 --------------------------------------------------
 
@@ -19,17 +28,17 @@ Command:
 npx expo install expo-dev-client react-native-reanimated react-native-gesture-handler
 
 Notes:
-- expo-dev-client → allows custom dev client
+- expo-dev-client → custom dev client
 - react-native-reanimated → animations
-- react-native-gesture-handler → gesture handling
+- react-native-gesture-handler → gestures
 
 --------------------------------------------------
 
-3️⃣ CONFIGURE BABEL
+3️⃣ CONFIGURE BABEL (REQUIRED FOR REANIMATED)
 --------------------------------------
 Steps:
-1. Create a file named babel.config.js (if not already present)
-2. Add the Reanimated plugin:
+1. Open or create babel.config.js
+2. Add the plugin at the END:
 
 module.exports = {
   presets: ['babel-preset-expo'],
@@ -44,52 +53,105 @@ Command:
 npx expo prebuild
 
 Notes:
-- Creates "android" and "ios" folders
-- Required for native modules
+- Creates android/ and ios/ folders
+- Required for native libraries
+- Run once after installing native deps
 
 --------------------------------------------------
 
-5️⃣ RUN THE APP ON ANDROID
+5️⃣ RUN THE APP LOCALLY
 --------------------------------------
 Commands:
 npm run android
-# or
+# OR
 npx expo run:android --device
 
 Notes:
-- May take time
-- Ensure device or emulator is connected
+- First run may take time
+- Ensure emulator or physical device is connected
 
 --------------------------------------------------
 
-6️⃣ INSTALL VIDEO & ASSET LIBRARIES
+6️⃣ INSTALL VIDEO LIBRARIES (OPTIONAL / AS NEEDED)
 --------------------------------------
-Commands:
+Expo-compatible video:
 npx expo install expo-video
 
-Alternative (if expo-video doesn’t work):
+Alternative (Dev Client / Bare only):
 npx expo install react-native-video
 
 Notes:
-- expo-video / react-native-video → video playback
+- expo-video → works in Expo Go
+- react-native-video → requires Dev Client / native build
 
 --------------------------------------------------
 
-7️⃣ APPLY PLUGIN/CONFIG CHANGES
+--------------------------------------------------
+🔄 PART B — CONTINUING WORK ON ANOTHER DEVICE
+--------------------------------------------------
+(After git clone / git pull)
+
+⚠️ DO NOT recreate the app
+⚠️ DO NOT run create-expo-app again
+
+--------------------------------------------------
+
+1️⃣ INSTALL NODE MODULES
+--------------------------------------
+Command:
+npm install
+
+Notes:
+- Always run this after git pull
+- Installs dependencies from package.json
+
+--------------------------------------------------
+
+2️⃣ PREBUILD (SAFE DEFAULT)
 --------------------------------------
 Command:
 npx expo prebuild --clean
 
 Notes:
-- Run after modifying plugins in babel.config.js or app.json
-- Ensures all native changes are applied
-- Clears old builds
+- Syncs native code with config files
+- Required if:
+  - app.json changed
+  - babel.config.js changed
+  - plugins changed
+  - native deps were added
 
 --------------------------------------------------
 
-✅ TIPS & BEST PRACTICES
+4️⃣ RUN THE APP
 --------------------------------------
-- Use "npx expo install" for Expo-compatible native libraries
+Command:
+npm run android
+# OR
+npx expo run:android --device
+
+--------------------------------------------------
+
+--------------------------------------------------
+♻️ WHEN TO RE-RUN PREBUILD --clean
+--------------------------------------------------
+Run this command:
+npx expo prebuild --clean
+
+When:
+- You add/remove a native library
+- You change babel.config.js
+- You change app.json / app.config.js
+- Video/audio/camera libs stop working
+- App behaves differently across machines
+
+--------------------------------------------------
+
+✅ GENERAL BEST PRACTICES
+--------------------------------------------------
+- Use "npx expo install" for native libraries
 - Use "npm i" only for pure JS libraries
+- react-native-video DOES NOT work in Expo Go
+- Always rebuild after native changes
+- If in doubt → prebuild --clean
 
 ==================================================
