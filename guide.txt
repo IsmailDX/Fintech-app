@@ -48,3 +48,15 @@ Always run this command if:
 - Expo Go: expo-video works; react-native-video does NOT
 - Fix-it-all: npx expo prebuild --clean && npx expo run:android
 ==================================================
+
+--------------------------------------------------
+♻️ To Clean Everything
+--------------------------------------------------
+# Remove all cached/generated files
+- rm -rf node_modules
+- rm -rf android/build
+- rm -rf android/app/build
+- rm -rf .expo
+- rm package-lock.json
+- npm i
+- npx expo prebuild --clean
