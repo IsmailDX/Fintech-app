@@ -1,4 +1,6 @@
+import { isClerkAPIResponseError, useSignIn } from '@clerk/clerk-expo'
 import { Ionicons } from '@expo/vector-icons'
+import { useRouter } from 'expo-router'
 import { useState } from 'react'
 import {
     View,
@@ -7,6 +9,7 @@ import {
     TouchableOpacity,
     KeyboardAvoidingView,
     Platform,
+    Alert,
 } from 'react-native'
 
 enum SignInType {
@@ -20,16 +23,44 @@ const SignIn = () => {
     const [countryCode, setCountryCode] = useState('+971')
     const [mobile, setMobile] = useState('')
     const keyboardVerticalOffset = Platform.OS === 'ios' ? 80 : 90
+    const router = useRouter()
+    const { signIn } = useSignIn()
 
     const onSignIn = async (type: SignInType) => {
         if (type === SignInType.Phone) {
-            // Handle phone sign-in
-        } else if (type === SignInType.Email) {
-            // Handle email sign-in
-        } else if (type === SignInType.Google) {
-            // Handle Google sign-in
-        } else if (type === SignInType.Apple) {
-            // Handle Apple sign-in
+            try {
+                const fullMobileNumber = `${countryCode}${mobile}`
+                const { supportedFirstFactors } = await signIn!.create({
+                    identifier: fullMobileNumber,
+                })
+
+                const firstPhoneFactor = supportedFirstFactors!.find(
+                    (factor) => factor.strategy === 'phone_code'
+                )
+
+                // @ts-ignore
+                const { phoneNumberId } = firstPhoneFactor
+
+                await signIn!.prepareFirstFactor({
+                    strategy: 'phone_code',
+                    phoneNumberId,
+                })
+
+                router.push({
+                    pathname: '/verify/[mobile]',
+                    params: { mobile: fullMobileNumber, signin: 'true' },
+                })
+            } catch (e) {
+                console.log(
+                    'Error during sign in: ',
+                    JSON.stringify(e, null, 2)
+                )
+                if (isClerkAPIResponseError(e)) {
+                    if (e.errors[0].code === 'form_identifier_not_found') {
+                        Alert.alert('Error', e.errors[0].message)
+                    }
+                }
+            }
         }
     }
 

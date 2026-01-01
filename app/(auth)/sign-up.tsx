@@ -8,14 +8,32 @@ import {
     KeyboardAvoidingView,
     Platform,
 } from 'react-native'
+import { useSignUp } from '@clerk/clerk-expo'
 
 const SignUp = () => {
     const [countryCode, setCountryCode] = useState('+971')
     const [mobile, setMobile] = useState('')
     const keyboardVerticalOffset = Platform.OS === 'ios' ? 80 : 90
     const router = useRouter()
+    // @ts-ignore
+    const { signUp } = useSignUp()
 
-    const onSignUp = async () => {}
+    const onSignUp = async () => {
+        const fullMobileNumber = `${countryCode}${mobile}`
+        try {
+            await signUp!.create({
+                phoneNumber: fullMobileNumber,
+            })
+
+            signUp!.preparePhoneNumberVerification()
+            router.push({
+                pathname: '/verify/[mobile]',
+                params: { mobile: fullMobileNumber },
+            })
+        } catch (e) {
+            console.log('Error during sign up: ', e)
+        }
+    }
 
     return (
         <KeyboardAvoidingView
@@ -37,6 +55,7 @@ const SignUp = () => {
                         placeholderTextColor="gray"
                         keyboardType="numeric"
                         value={countryCode}
+                        onChangeText={setCountryCode}
                     />
                     <TextInput
                         className="inputStyle flex-1"
