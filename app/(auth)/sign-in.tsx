@@ -83,6 +83,7 @@ const SignIn = () => {
                         placeholderTextColor="gray"
                         keyboardType="numeric"
                         value={countryCode}
+                        onChangeText={setCountryCode}
                     />
                     <TextInput
                         className="inputStyle flex-1"

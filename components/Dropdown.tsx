@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native'
 import * as DropdownMenu from 'zeego/dropdown-menu'
 import RoundButton from './RoundButton'
 
@@ -13,7 +12,32 @@ const Dropdown = () => {
                 <DropdownMenu.Item key="statement">
                     <DropdownMenu.ItemTitle>Statement</DropdownMenu.ItemTitle>
                     <DropdownMenu.ItemIcon
-                        ios={{ name: 'list.bullet.rectangle.fill' }}
+                        ios={{
+                            name: 'list.bullet.rectangle.fill',
+                            pointSize: 24,
+                        }}
+                    />
+                </DropdownMenu.Item>
+
+                <DropdownMenu.Item key="background">
+                    <DropdownMenu.ItemTitle>Converter</DropdownMenu.ItemTitle>
+                    <DropdownMenu.ItemIcon
+                        ios={{
+                            name: 'photo.fill',
+                            pointSize: 24,
+                        }}
+                    />
+                </DropdownMenu.Item>
+
+                <DropdownMenu.Item key="account">
+                    <DropdownMenu.ItemTitle>
+                        Add new account
+                    </DropdownMenu.ItemTitle>
+                    <DropdownMenu.ItemIcon
+                        ios={{
+                            name: 'plus.rectangle.on.folder.fill',
+                            pointSize: 24,
+                        }}
                     />
                 </DropdownMenu.Item>
             </DropdownMenu.Content>

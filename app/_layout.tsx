@@ -96,7 +96,7 @@ const AppLayout = () => {
                     ),
 
                     headerRight: () => (
-                        <Link href="/help" asChild>
+                        <Link href="(auth)/help" asChild>
                             <TouchableOpacity>
                                 <Ionicons
                                     name="help-circle-outline"
@@ -109,7 +109,7 @@ const AppLayout = () => {
                 }}
             />
             <Stack.Screen
-                name="help"
+                name="(auth)/help"
                 options={{ title: 'Help', presentation: 'modal' }}
             />
             <Stack.Screen
