@@ -5,10 +5,14 @@ import RoundButton from '@/components/RoundButton'
 import Dropdown from '@/components/Dropdown'
 import { useBalanceStore } from '@/store/balanceStore'
 import { Ionicons } from '@expo/vector-icons'
+import WidgetList from '@/components/SortableList/WidgetList'
+import { useHeaderHeight } from '@react-navigation/elements'
 
 const Home = () => {
     const { balance, runTransaction, transactions, clearTransactions } =
         useBalanceStore()
+
+    const headerHeight = useHeaderHeight()
 
     const onAddMoney = () => {
         runTransaction({
@@ -17,11 +21,16 @@ const Home = () => {
                 Math.floor(Math.random() * 1000) *
                 (Math.random() > 0.5 ? 1 : -1),
             date: new Date(),
-            title: 'Add Money',
+            title: 'Added Money',
         })
     }
     return (
-        <ScrollView style={{ backgroundColor: Colors.background }}>
+        <ScrollView
+            style={{ backgroundColor: Colors.background }}
+            contentContainerStyle={{
+                paddingTop: headerHeight,
+            }}
+        >
             <View className="m-20 flex items-center">
                 <View className="flex-row items-end justify-center">
                     <Text className="text-6xl font-bold">{balance()}</Text>
@@ -75,6 +84,10 @@ const Home = () => {
                     </View>
                 ))}
             </View>
+
+            <Text className="sectionHeader">Widgets</Text>
+
+            <WidgetList />
         </ScrollView>
     )
 }

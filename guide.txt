@@ -60,3 +60,5 @@ Always run this command if:
 - rm package-lock.json
 - npm i
 - npx expo prebuild --clean
+
+to check issues:  npx expo-doctor
