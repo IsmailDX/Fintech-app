@@ -64,4 +64,8 @@
     .disabled {
         @apply bg-primaryMuted;
     }
+
+    .circleButton {
+        @apply   items-center justify-center rounded-full  
+    }
 }
