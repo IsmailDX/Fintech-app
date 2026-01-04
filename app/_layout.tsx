@@ -5,12 +5,15 @@ import { Link, Stack, useRouter, useSegments } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
-import { TouchableOpacity, Text } from 'react-native'
+import { TouchableOpacity, Text, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import 'react-native-reanimated'
 import { ClerkProvider, useAuth } from '@clerk/clerk-expo'
 import { tokenCache } from '@clerk/clerk-expo/token-cache'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 export {
     // Catch any errors thrown by the Layout component.
@@ -47,7 +50,7 @@ const AppLayout = () => {
         const inAuthGroup = segments[0] === '(tabs)'
 
         if (isSignedIn && !inAuthGroup) {
-            router.replace('/(tabs)/home')
+            router.replace('/(tabs)/crypto')
         } else if (!isSignedIn) {
             router.replace('/')
         }
@@ -132,6 +135,42 @@ const AppLayout = () => {
             />
 
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+
+            <Stack.Screen
+                name="crypto/[id]"
+                options={{
+                    title: '',
+                    headerLeft: () => (
+                        <TouchableOpacity onPress={router.back}>
+                            <Ionicons
+                                name="arrow-back"
+                                size={34}
+                                color="dark"
+                            />
+                        </TouchableOpacity>
+                    ),
+                    headerLargeTitleEnabled: true,
+                    headerTransparent: true,
+                    headerRight: () => (
+                        <View className="flex-row gap-3">
+                            <TouchableOpacity>
+                                <Ionicons
+                                    name="notifications-outline"
+                                    size={30}
+                                    color="dark"
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <Ionicons
+                                    name="star-outline"
+                                    size={30}
+                                    color="dark"
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    ),
+                }}
+            />
         </Stack>
     )
 }
@@ -140,10 +179,12 @@ const RootLayoutNav = () => {
     const CLERK_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY as string
     return (
         <ClerkProvider publishableKey={CLERK_KEY!} tokenCache={tokenCache}>
-            <GestureHandlerRootView style={{ flex: 1 }}>
-                <StatusBar style="light" />
-                <AppLayout />
-            </GestureHandlerRootView>
+            <QueryClientProvider client={queryClient}>
+                <GestureHandlerRootView style={{ flex: 1 }}>
+                    <StatusBar style="light" />
+                    <AppLayout />
+                </GestureHandlerRootView>
+            </QueryClientProvider>
         </ClerkProvider>
     )
 }
