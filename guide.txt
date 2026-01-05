@@ -1,64 +1,128 @@
 ==================================================
-             EXPO APP WORKFLOW GUIDE
+            EXPO APP WORKFLOW GUIDE
 ==================================================
 
+This guide explains how to create, run, and keep
+Expo apps in sync across machines and environments.
+
 --------------------------------------------------
-🆕 PART A: FIRST-TIME SETUP (New Projects Only)
+🆕 PART A: FIRST-TIME SETUP (NEW PROJECTS ONLY)
 --------------------------------------------------
-1. Create App: 
+
+1️⃣ Create the Expo App
+   (Tabs template with navigation preconfigured)
+
    npx create-expo-app fintech -t tabs
 
-2. Install Core Native Libs:
-   npx expo install expo-dev-client react-native-reanimated react-native-gesture-handler expo-video
+--------------------------------------------------
 
-3. Configure Babel:
-   Add 'react-native-reanimated/plugin' to the END of your plugins in babel.config.js:
+2️⃣ Install Required Native Libraries
+   ⚠️ Always use `expo install` for native deps
+   (ensures compatible versions)
+
+   npx expo install \
+     expo-dev-client \
+     react-native-reanimated \
+     react-native-gesture-handler \
+     expo-video
+
+--------------------------------------------------
+
+3️⃣ Configure Babel (Required for Reanimated)
+
+   In `babel.config.js`, add this plugin
+   ⚠️ MUST be the LAST plugin in the list:
+
    plugins: ['react-native-reanimated/plugin']
 
-4. Generate Native Folders:
+--------------------------------------------------
+
+4️⃣ Generate Native Android / iOS Folders
+   (Creates /android and /ios locally — NOT committed)
+
    npx expo prebuild
 
-5. Run:
+--------------------------------------------------
+
+5️⃣ Run the App on Android
+
    npm run android
 
---------------------------------------------------
-🔄 PART B: SYNCING DEVICES (After Git Pull)
---------------------------------------------------
-Use this routine every time you switch laptops:
-
-1. Sync JS:     npm install
-2. Sync Native: npx expo prebuild --clean
-3. Run:         npm run android
-
---------------------------------------------------
-♻️ WHEN TO RE-RUN: npx expo prebuild --clean
---------------------------------------------------
-Always run this command if:
-- You added a new native library (Camera, Video, etc.)
-- You modified app.json or babel.config.js
-- You switched laptops or changed NDK/SDK versions
-- You get "Native Module not found" errors
-
---------------------------------------------------
-✅ GENERAL BEST PRACTICES
---------------------------------------------------
-- Native Libraries: Use "npx expo install"
-- Pure JS Libraries: Use "npm i"
-- Git: NEVER commit /android or /ios folders
-- Expo Go: expo-video works; react-native-video does NOT
-- Fix-it-all: npx expo prebuild --clean && npx expo run:android
+==================================================
+🔄 PART B: SYNCING AFTER A GIT PULL
 ==================================================
 
---------------------------------------------------
-♻️ To Clean Everything
---------------------------------------------------
-# Remove all cached/generated files
-- rm -rf node_modules
-- rm -rf android/build
-- rm -rf android/app/build
-- rm -rf .expo
-- rm package-lock.json
-- npm i
-- npx expo prebuild --clean
+Use this workflow whenever you:
+- Switch laptops
+- Clone the repo on a new machine
+- Pull changes that affect native code
 
-to check issues:  npx expo-doctor
+1️⃣ Install JS Dependencies
+   npm install
+
+2️⃣ Regenerate Native Code
+   (Ensures native folders match JS config)
+
+   npx expo prebuild --clean
+
+3️⃣ Run the App
+   npm run android
+
+==================================================
+♻️ WHEN TO RUN: `npx expo prebuild --clean`
+==================================================
+
+Always re-run this command if you:
+
+✔ Add a new native module (Camera, Video, Sensors)  
+✔ Change `app.json`, `app.config.js`, or `babel.config.js`  
+✔ Switch computers or Android SDK / NDK versions  
+✔ See errors like:
+  - "Native module not found"
+  - "Cannot find module in UIManager"
+
+==================================================
+✅ GENERAL BEST PRACTICES
+==================================================
+
+📦 Installing Libraries
+- Native libraries → `npx expo install`
+- Pure JS libraries → `npm install`
+
+📁 Git Rules
+- ❌ NEVER commit `/android` or `/ios`
+- ✅ Only commit JS / config files
+
+📱 Expo Go Compatibility
+- `expo-video` ✅ supported
+- `react-native-video` ❌ NOT supported
+
+🛠️ Nuclear Fix (Fixes 90% of native issues)
+   npx expo prebuild --clean
+   npx expo run:android
+
+==================================================
+♻️ FULL CLEAN (LAST RESORT)
+==================================================
+
+Use this only when everything is broken.
+
+# Remove generated & cached files
+rm -rf node_modules
+rm -rf android/build
+rm -rf android/app/build
+rm -rf .expo
+rm -rf package-lock.json
+
+# Reinstall & rebuild
+npm install
+npx expo prebuild --clean
+
+--------------------------------------------------
+🩺 DEBUGGING
+--------------------------------------------------
+
+Check project health:
+npx expo-doctor
+
+==================================================

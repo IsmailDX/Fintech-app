@@ -26,7 +26,7 @@ const CustomHeader = () => {
                         className="p-2 pl-4"
                     />
                     <TextInput
-                        className="inputStyle"
+                        className="flex-1 p-3 pl-0 text-dark"
                         placeholder="Search"
                         placeholderTextColor={Colors.dark}
                     />

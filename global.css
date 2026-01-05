@@ -66,10 +66,6 @@
     }
 
     .circleButton {
-        @apply   items-center justify-center rounded-full  
-    }
-
-    .inputStyle {
-        @apply flex-1 pl-0 p-3 text-dark
+        @apply items-center justify-center rounded-full;
     }
 }
