@@ -2,16 +2,21 @@ import { useAuth } from '@clerk/clerk-expo'
 import { useRouter } from 'expo-router'
 import { useEffect, useRef } from 'react'
 import { AppState, AppStateStatus } from 'react-native'
-import { createMMKV } from 'react-native-mmkv'
+import { useMMKV } from 'react-native-mmkv'
 
-const storage = createMMKV({
+const storage = useMMKV({
     id: 'inactivity-storage',
 })
 
 export const UserInActivityProvider = ({ children }: any) => {
-    const appState = useRef(AppState.currentState)
+    const appState = useRef<AppStateStatus>(AppState.currentState)
     const router = useRouter()
     const { isSignedIn } = useAuth()
+    const authRef = useRef(isSignedIn)
+
+    useEffect(() => {
+        authRef.current = isSignedIn
+    }, [isSignedIn])
 
     useEffect(() => {
         const subscription = AppState.addEventListener(
@@ -19,31 +24,24 @@ export const UserInActivityProvider = ({ children }: any) => {
             handleAppStateChange
         )
 
-        return () => {
-            subscription.remove()
-        }
+        return () => subscription.remove()
     }, [])
 
-    const handleAppStateChange = async (nextAppState: AppStateStatus) => {
-        if (nextAppState === 'background') {
-            recordStartTime()
-        } else if (
-            nextAppState === 'active' &&
-            appState.current.match(/background/)
-        ) {
-            const elapsedTime =
-                Date.now() - (storage.getNumber('startTime') || 0)
+    const handleAppStateChange = (nextAppState: AppStateStatus) => {
+        if (nextAppState === 'background' || nextAppState === 'inactive') {
+            storage.set('startTime', Date.now())
+        }
 
-            if (elapsedTime > 3000 && isSignedIn) {
+        if (nextAppState === 'active' && appState.current !== 'active') {
+            const elapsed = Date.now() - (storage.getNumber('startTime') || 0)
+
+            if (elapsed > 3000 && authRef.current) {
                 router.replace('/(modals)/lock')
             }
         }
+
         appState.current = nextAppState
     }
 
-    const recordStartTime = () => {
-        const now = Date.now()
-        storage.set('startTime', now)
-    }
     return children
 }

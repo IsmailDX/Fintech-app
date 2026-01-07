@@ -5,7 +5,7 @@ import { Link, Stack, useRouter, useSegments } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
-import { TouchableOpacity, Text, View } from 'react-native'
+import { TouchableOpacity, Text, View, ActivityIndicator } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import 'react-native-reanimated'
 import { ClerkProvider, useAuth } from '@clerk/clerk-expo'
@@ -51,14 +51,26 @@ const AppLayout = () => {
         const inAuthGroup = segments[0] === '(tabs)'
 
         if (isSignedIn && !inAuthGroup) {
-            router.replace('/(tabs)/crypto')
+            router.replace('/(tabs)/home')
         } else if (!isSignedIn) {
             router.replace('/')
         }
     }, [isSignedIn])
 
     if (!loaded || !isLoaded) {
-        return <Text>Loading...</Text>
+        return (
+            <View className="flex-1 items-center justify-center">
+                <Text className="mb-4 text-2xl font-bold text-black">
+                    Fintech
+                </Text>
+
+                <ActivityIndicator size="large" color="black" />
+
+                <Text className="text-gray-400 mt-4 text-sm">
+                    Preparing your experience…
+                </Text>
+            </View>
+        )
     }
 
     return (
