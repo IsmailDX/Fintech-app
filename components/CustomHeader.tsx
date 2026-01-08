@@ -3,9 +3,13 @@ import { BlurView } from 'expo-blur'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons'
 import Colors from '@/constants/Colors'
+import { Link } from 'expo-router'
+import { useUser } from '@clerk/clerk-expo'
+import { Image } from 'react-native'
 
 const CustomHeader = () => {
     const { top } = useSafeAreaInsets()
+    const { user } = useUser()
     return (
         <BlurView
             intensity={70}
@@ -14,10 +18,16 @@ const CustomHeader = () => {
             style={{ paddingTop: top, backgroundColor: 'rgba(0,0,0,0.01)' }}
         >
             <View className="h-fit flex-row items-center justify-center gap-2 bg-transparent px-5 pb-3">
-                <TouchableOpacity className="circleButton size-12 bg-gray">
-                    <Text className="text-lg font-medium text-white">IH</Text>
-                </TouchableOpacity>
-
+                <Link href="/(modals)/account" asChild>
+                    <TouchableOpacity className="circleButton size-12 overflow-hidden bg-gray">
+                        {user?.imageUrl && (
+                            <Image
+                                source={{ uri: user?.imageUrl }}
+                                className="size-12 rounded-full bg-gray"
+                            />
+                        )}
+                    </TouchableOpacity>
+                </Link>
                 <View className="flex-1 flex-row items-center justify-center rounded-3xl bg-lightGray">
                     <Ionicons
                         name="search"

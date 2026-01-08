@@ -25,6 +25,7 @@ const WidgetList = () => {
         <View
             style={{
                 paddingHorizontal: MARGIN,
+                paddingBottom: 60,
             }}
         >
             <SortableList editing={true} onDragEnd={() => {}}>

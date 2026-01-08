@@ -18,12 +18,16 @@
         },
         "android": {
             "adaptiveIcon": {
-                "foregroundImage": "./assets/images/adaptive-icon.png",
+                "foregroundImage": "./assets/images/icon.png",
                 "backgroundColor": "#ffffff"
             },
             "edgeToEdgeEnabled": true,
             "predictiveBackGestureEnabled": false,
-            "package": "com.anonymous.fintech"
+            "package": "com.anonymous.fintech",
+            "permissions": [
+                "android.permission.USE_BIOMETRIC",
+                "android.permission.USE_FINGERPRINT"
+            ]
         },
         "web": {
             "bundler": "metro",
@@ -54,6 +58,14 @@
         ],
         "experiments": {
             "typedRoutes": true
+        },
+        "extra": {
+            "router": {
+                "origin": "https://ismaildx.vercel.app/"
+            },
+            "eas": {
+                "projectId": "54579a13-1e14-4e18-9421-3d9c8d75bca4"
+            }
         }
     }
 }
